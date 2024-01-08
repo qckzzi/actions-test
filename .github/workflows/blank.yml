@@ -22,5 +22,5 @@ jobs:
           script: |
             cd /var
             touch test.txt
-            echo test > test.txt
+            echo abc > test.txt
             cat test.txt
