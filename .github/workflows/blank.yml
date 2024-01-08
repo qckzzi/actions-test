@@ -1,17 +1,26 @@
-name: CI
+name: Deploy to Server
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: test
-        run: ssh ${{ secrets.USER }}@${{ secrets.HOST_IP }} """
-          cd /var
-          touch test.txt
-          echo blablabla > test.txt
-          cat test.txt
-          """
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@1.0.3
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /var
+            touch test.txt
+            echo test > test.txt
+            cat test.txt
